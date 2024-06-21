@@ -1,4 +1,4 @@
-package gameHopefully;
+
 /**
  * @author Daniel Kachelmyer
  * @version 03/24/2023
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 import java.util.Random;
-  
+
 public class game2048 {
 	public static void main (String args[]){
 		/*
@@ -132,7 +132,13 @@ public class game2048 {
 		
 	}
 
-	public static void move(int [] board, String direction) {
+	public static void move(int [] board, int boardSize, String direction) {
+		//create corner index based off board size
+		int topLeftCornerIndex = 0;
+		int topRightCornerIndex = boardSize - 1;
+		int bottomRightCornerIndex = (boardSize * boardSize) - 1;
+		int bottomLeftCornerIndex = bottomRightCornerIndex - boardSize + 1;
+		
 		int startingIndex = 0;
 		int increment;
 		switch(direction) {
@@ -151,8 +157,16 @@ public class game2048 {
 		case "DOWN": startingIndex = 0;
 					increment = 4;
 		}
-		for(int i = startingIndex; i !=2;i++ ) {
-			
+		for(int j = startingIndex; j < (boardSize * boardSize); j += boardSize ) {
+			int i = j;
+			while(i != j - boardSize + 1){
+				if(board[i - 1] == 0){
+					board[i - 1] = board[i];
+				}
+				if(board [i - 1] == board[i]){
+					board[i - 1] = board[i - 1] * 2;
+				}
+			}
 		}
 	}
 	
