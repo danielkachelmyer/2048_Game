@@ -1,7 +1,5 @@
 public class gameTesting {
     public static void main(String[] args) {
-        System.out.println("hello world");
-
 
         int a1 = 2, a2 = 2, a3 = 0, a4 = 0, 
             b1 = 0, b2 = 2, b3 = 0, b4 = 2, 
@@ -11,7 +9,7 @@ public class gameTesting {
         int mySize = 4;
         String myDirection = "LEFT";
         printBoard(board);
-        System.out.println();
+        System.out.println("moving " + myDirection);
         move(board, mySize, myDirection);
         printBoard(board);
     }
@@ -30,47 +28,57 @@ public class gameTesting {
         int endingIndex = 0;
 		int increment = 0;
         int rowCollum = 0;
-        int iterate = 0;
+        int flag = 0;
                     
 		switch(direction) {
-		case "LEFT": startingIndex = topRightCornerIndex;
-                    endingIndex =  bottomRightCornerIndex + boardSize;
-					increment = -1;
-                    iterate = -3;
-                    rowCollum = boardSize;
-                   // System.out.println("left");
-                    //increment being -1 for left means right to left.
+		case "LEFT":    startingIndex = topRightCornerIndex;
+                        endingIndex =  bottomRightCornerIndex + boardSize;
+					    increment = -1;                                     //increment is 1 or -1 for L/R, boardSize or -boardSize for U/D
+                        flag = (boardSize - 1) * -1;                        //to check where to end inner loop
+                        rowCollum = boardSize;
 		break;
 		
-		case "RIGHT": startingIndex = topLeftCornerIndex;
-                    endingIndex = bottomRightCornerIndex + boardSize;
-                    increment = 1;
-                    iterate = 3;
-                    rowCollum = boardSize;
+        case "RIGHT":   startingIndex = topLeftCornerIndex;
+                        endingIndex = bottomLeftCornerIndex + boardSize;
+                        increment = 1;
+                        flag = (boardSize - 1);
+                        rowCollum = boardSize;
 		break; 
 		
-		case "UP": startingIndex = 12;
-					increment = -4;
+		case "UP":      startingIndex = bottomLeftCornerIndex;
+                        endingIndex = bottomRightCornerIndex + 1;
+                        increment = (boardSize * -1);
+                        flag = (boardSize * (boardSize - 1)) * - 1;
+                        rowCollum = 1;
 		break;
 		
-		case "DOWN": startingIndex = 0;
-					increment = 4;
+		case "DOWN":    startingIndex = topLeftCornerIndex;
+                        endingIndex = topRightCornerIndex + 1;
+                        increment = boardSize;
+                        flag = (boardSize * (boardSize - 1));
+                        rowCollum = 1;
 		}
         int i;
 		for(int j = startingIndex; j != endingIndex; j += rowCollum ) {
 			i = j;
+
+            while(i != j + flag){
+                if(board [i + increment] == board[i]){  //check adjacent element if equal to current element
+                    board[i + increment] = board[i + increment] * 2;
+                    board[i] = 0;
+                }
+
+                i += increment;
+            }
             for(int x = 0; x < boardSize; x++){//repeat for how long board is
                 i = j;
-                while(i != j + iterate){
-          
+                while(i != j + flag){
+                    
                     if(board[i + increment] == 0){  //check adjacent element if 0
                         board[i + increment] = board[i];
                         board[i] = 0;
                     }
-                    if(board [i + increment] == board[i]){  //check adjacent element if equal to current element
-                        board[i + increment] = board[i + increment] * 2;
-                        board[i] = 0;
-                    }
+                   
                     i += increment;
                 }
             }
