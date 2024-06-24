@@ -7,7 +7,7 @@ public class gameTesting {
             d1 = 2, d2 = 2, d3 = 2, d4 = 2;
         int [] board  = {a1, a2, a3, a4, b1, b2, b3, b4, c1, c2, c3, c4, d1, d2, d3, d4};
         int mySize = 4;
-        String myDirection = "LEFT";
+        String myDirection = "DOWN";
         printBoard(board);
         System.out.println("moving " + myDirection);
         move(board, mySize, myDirection);
@@ -30,57 +30,62 @@ public class gameTesting {
         int rowCollum = 0;
         int flag = 0;
                     
-		switch(direction) {
-		case "LEFT":    startingIndex = topRightCornerIndex;
-                        endingIndex =  bottomRightCornerIndex + boardSize;
-					    increment = -1;                                     //increment is 1 or -1 for L/R, boardSize or -boardSize for U/D
-                        flag = (boardSize - 1) * -1;                        //to check where to end inner loop
+		switch(direction) {//when shifting elements start on the far (direction) side, ex move left, start at far left
+		case "LEFT":    startingIndex = topLeftCornerIndex;
+                        endingIndex =  bottomLeftCornerIndex + boardSize;
+					    increment = 1;                                     //increment is 1 or -1 for L/R, boardSize or -boardSize for U/D
+                        flag = (boardSize - 1);                        //to check where to end inner loop
                         rowCollum = boardSize;
 		break;
 		
-        case "RIGHT":   startingIndex = topLeftCornerIndex;
-                        endingIndex = bottomLeftCornerIndex + boardSize;
-                        increment = 1;
-                        flag = (boardSize - 1);
+        case "RIGHT":   startingIndex = topRightCornerIndex;
+                        endingIndex = bottomRightCornerIndex + boardSize;
+                        increment = -1;
+                        flag = (boardSize - 1) * -1;
                         rowCollum = boardSize;
 		break; 
 		
-		case "UP":      startingIndex = bottomLeftCornerIndex;
+		case "DOWN":      startingIndex = bottomLeftCornerIndex;
                         endingIndex = bottomRightCornerIndex + 1;
                         increment = (boardSize * -1);
                         flag = (boardSize * (boardSize - 1)) * - 1;
                         rowCollum = 1;
 		break;
 		
-		case "DOWN":    startingIndex = topLeftCornerIndex;
+		case "UP":    startingIndex = topLeftCornerIndex;
                         endingIndex = topRightCornerIndex + 1;
                         increment = boardSize;
                         flag = (boardSize * (boardSize - 1));
                         rowCollum = 1;
 		}
         int i;
+        int current;
+        int adjacent;
+        int counterFlag = boardSize / 2;
+        int counter;
 		for(int j = startingIndex; j != endingIndex; j += rowCollum ) {
 			i = j;
-
-            while(i != j + flag){
-                if(board [i + increment] == board[i]){  //check adjacent element if equal to current element
-                    board[i + increment] = board[i + increment] * 2;
-                    board[i] = 0;
-                }
-
-                i += increment;
-            }
+            counter = 0;
             for(int x = 0; x < boardSize; x++){//repeat for how long board is
                 i = j;
                 while(i != j + flag){
+                    current = i;
+                    adjacent = i + increment;
+                    if(board [adjacent] == board[current] && counter <= counterFlag){  //check adjacent element if equal to current element
+                        board[current] = board[current] * 2;
+                        board[adjacent] = 0;
+                        counter++;
+                    }
+
                     
-                    if(board[i + increment] == 0){  //check adjacent element if 0
-                        board[i + increment] = board[i];
-                        board[i] = 0;
+                    if(board[current] == 0){  //check if current element equals 0
+                        board[current] = board[adjacent];
+                        board[adjacent] = 0;
                     }
                    
                     i += increment;
                 }
+               
             }
            
 
