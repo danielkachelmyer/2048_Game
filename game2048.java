@@ -28,10 +28,10 @@ public class game2048 {
 		Scanner input = new Scanner(System.in);
 		System.out.println("Welcome to the game 2048!");
 		//initialize board values, order it this way to make debugging easier
-		int a1 = 0, a2= 0, a3= 0, a4= 0, 
-			b1= 0, b2= 0, b3= 0, b4= 0, 
-			c1= 0, c2= 0, c3= 0, c4 = 0, 
-			d1= 0, d2= 0, d3= 0, d4 = 0;
+		int a1 = 0, a2 = 0, a3 = 0, a4 = 0, 
+			b1 = 0, b2 = 0, b3 = 0, b4 = 0, 
+			c1 = 0, c2 = 0, c3 = 0, c4 = 0, 
+			d1 = 0, d2 = 0, d3 = 0, d4 = 0;
 		int [] board  = {a1, a2, a3, a4, b1, b2, b3, b4, c1, c2, c3, c4, d1, d2, d3, d4};
 		//randomize first two digits
 		Randomize(board);
@@ -40,8 +40,8 @@ public class game2048 {
 		int userInput = 0;
 		
 		gameGraphics showBoard = new gameGraphics(board);
-		
-		//first while loop gives users the option to quit by entering -1
+//All of this was for the console input and output----------------------------------------------------{		
+		//first while loop gives users the option to quit by entering -1 
 		while(userInput != -1) {
 			System.out.println("Enter your move, 1 to move left, 2 to move right, 3 to move down, 4 to move up or -1 to quit");
 			//set up invalid boolean to assist with catching illegal argument exceptions
@@ -131,44 +131,105 @@ public class game2048 {
 		}
 		
 	}
+//-----------------------------------------------------------------------------------------------------------}
 
-	public static void move(int [] board, int boardSize, String direction) {
-		//create corner index based off board size
-		int topLeftCornerIndex = 0;
-		int topRightCornerIndex = boardSize - 1;
-		int bottomRightCornerIndex = (boardSize * boardSize) - 1;
-		int bottomLeftCornerIndex = bottomRightCornerIndex - boardSize + 1;
-		
-		int startingIndex = 0;
-		int increment;
-		switch(direction) {
-		case "LEFT": startingIndex = 3;
+//-----------------------------------------------------------------------------------------------------
+public static int[] move(int [] board, int boardSize, String direction) {
+	String message = "";
+	
+	//create copy of board to tell if there are no changes
+	int [] returnBoard;
+	returnBoard = Arrays.copyOf(board, board.length);
+	
+	
+	//create corner index based off board size
+	int topLeftCornerIndex = 0;
+	int topRightCornerIndex = boardSize - 1;
+	int bottomRightCornerIndex = (boardSize * boardSize) - 1;
+	int bottomLeftCornerIndex = bottomRightCornerIndex - boardSize + 1;
+	
+	int startingIndex = 0;
+	int endingIndex = 0;
+	int increment = 0;
+	int rowCollum = 0;
+	int flag = 0;
+				
+	switch(direction) {//when shifting elements start on the far (direction) side, ex move left, start at far left
+	case "LEFT":    startingIndex = topLeftCornerIndex;
+					endingIndex =  bottomLeftCornerIndex + boardSize;
+					increment = 1;                                     //increment is 1 or -1 for L/R, boardSize or -boardSize for U/D
+					flag = (boardSize - 1);                        //to check where to end inner loop
+					rowCollum = boardSize;
+					message = "left";
+	break;
+	
+	case "RIGHT":   startingIndex = topRightCornerIndex;
+					endingIndex = bottomRightCornerIndex + boardSize;
 					increment = -1;
-		break;
-		
-		case "RIGHT": startingIndex = 0;
-					increment = 1;
-		break; 
-		
-		case "UP": startingIndex = 12;
-					increment = -4;
-		break;
-		
-		case "DOWN": startingIndex = 0;
-					increment = 4;
-		}
-		for(int j = startingIndex; j < (boardSize * boardSize); j += boardSize ) {
-			int i = j;
-			while(i != j - boardSize + 1){
-				if(board[i - 1] == 0){
-					board[i - 1] = board[i];
-				}
-				if(board [i - 1] == board[i]){
-					board[i - 1] = board[i - 1] * 2;
-				}
-			}
-		}
+					flag = (boardSize - 1) * -1;
+					rowCollum = boardSize;
+					message = "right";
+	break; 
+	
+	case "DOWN":      startingIndex = bottomLeftCornerIndex;
+					endingIndex = bottomRightCornerIndex + 1;
+					increment = (boardSize * -1);
+					flag = (boardSize * (boardSize - 1)) * - 1;
+					rowCollum = 1;
+					message = "down";
+	break;
+	
+	case "UP":    startingIndex = topLeftCornerIndex;
+					endingIndex = topRightCornerIndex + 1;
+					increment = boardSize;
+					flag = (boardSize * (boardSize - 1));
+					rowCollum = 1;
+					message = "down";
 	}
+	int i;
+	int current;
+	int adjacent;
+	int counterFlag = boardSize / 2;
+	int counter;
+	for(int j = startingIndex; j != endingIndex; j += rowCollum ) {
+		i = j;
+		counter = 0;
+		for(int x = 0; x < boardSize; x++){//repeat for how long board is
+			i = j;
+			while(i != j + flag){
+				current = i;
+				adjacent = i + increment;
+				if(board [adjacent] == board[current] && counter <= counterFlag){  //check adjacent element if equal to current element
+					board[current] = board[current] * 2;
+					board[adjacent] = 0;
+					counter++;
+				}
+
+				
+				if(board[current] == 0){  //check if current element equals 0
+					board[current] = board[adjacent];
+					board[adjacent] = 0;
+				}
+			   
+				i += increment;
+			}
+		   
+		}
+	   
+
+	}
+	boolean sameBoard = Arrays.equals(board, returnBoard);
+		if(sameBoard) {
+			//nothing changes
+			return null;//return null to let user know you can't move that direction
+		}
+		else {
+		  return board;
+		}
+}
+
+	
+//-----------------------------------------------------------------------------------------------------
 	
 	/**
 	 * shifts all elements from right
@@ -562,7 +623,7 @@ public class game2048 {
 	 * Takes all the zeores's left on the board
 	 * stores them in an array list
 	 * and then using a random object selects
-	 * one of those index to become a two or four
+	 * one of those index to become a two or four, 10% chance to be 4, 90% chance to be 2
 	 * @param board
 	 */
 	public static int [] Randomize(int [] board) {

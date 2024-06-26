@@ -143,9 +143,12 @@ public class gameGraphics implements ActionListener{
 			
 			try {
 				// [index, value]
-				int increment = 0;
-				boardData = Arrays.copyOf(game2048.moveLeft(boardData), SIZE);
-				boardData = Arrays.copyOf(game2048.Randomize(boardData), SIZE);
+				int increment = 0;//keep track of what square you are changing
+			//	boardData = Arrays.copyOf(game2048.moveLeft(boardData), SIZE);//move left
+
+				boardData = Arrays.copyOf(game2048.move(boardData, 4, "LEFT"), SIZE);
+
+				boardData = Arrays.copyOf(game2048.Randomize(boardData), SIZE);//then randomize one new square
 		
 				
 				for(JLabel label: labels) {
@@ -173,7 +176,9 @@ public class gameGraphics implements ActionListener{
 			try {
 			
 				int increment = 0;
-				boardData = Arrays.copyOf(game2048.moveRight(boardData), SIZE);
+				//boardData = Arrays.copyOf(game2048.moveRight(boardData), SIZE);
+				boardData = Arrays.copyOf(game2048.move(boardData, 4, "RIGHT"), SIZE);
+
 				boardData = Arrays.copyOf(game2048.Randomize(boardData), SIZE);
 
 				for(JLabel label: labels) {
@@ -200,7 +205,9 @@ public class gameGraphics implements ActionListener{
 			try {
 			
 				int increment = 0;
-				boardData = Arrays.copyOf(game2048.moveUp(boardData), SIZE);
+				//boardData = Arrays.copyOf(game2048.moveUp(boardData), SIZE);
+				boardData = Arrays.copyOf(game2048.move(boardData, 4, "UP"), SIZE);
+
 				boardData = Arrays.copyOf(game2048.Randomize(boardData), SIZE);
 			 		
 				for(JLabel label: labels) {
@@ -227,7 +234,8 @@ public class gameGraphics implements ActionListener{
 			try {
 			
 				int increment = 0;
-				boardData = Arrays.copyOf(game2048.moveDown(boardData), SIZE);
+				//boardData = Arrays.copyOf(game2048.moveDown(boardData), SIZE);
+				boardData = Arrays.copyOf(game2048.move(boardData, 4, "DOWN"), SIZE);
 				boardData = Arrays.copyOf(game2048.Randomize(boardData), SIZE);
 			 		
 				for(JLabel label: labels) {
