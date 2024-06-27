@@ -133,6 +133,32 @@ public class gameGraphics implements ActionListener{
 		scorePanel.add(scoreLabel);
 		mainFrame.add(scorePanel, BorderLayout.NORTH);
 	}
+public void updateBoard(int[] board){
+	try {
+		// [index, value]
+		int increment = 0;//keep track of what square you are changing
+	
+		boardData = Arrays.copyOf(board, SIZE);//then randomize one new square
+
+		
+		for(JLabel label: labels) {
+			String newLabel = Integer.toString(boardData[increment]);
+			label.setText(newLabel);
+			increment++;
+		}
+		scoreLabel.setText(Integer.toString(game2048.getScore(boardData)));
+		moveLeft = true;
+	}
+	catch(Exception error){
+	   JOptionPane.showMessageDialog(
+				null,
+				"Can't Move Left!",
+				"Message Box",
+				JOptionPane.INFORMATION_MESSAGE
+		);
+	   moveLeft = false;
+}
+} 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		// TODO Auto-generated method stub

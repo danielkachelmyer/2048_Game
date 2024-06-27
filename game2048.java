@@ -134,6 +134,12 @@ public class game2048 {
 //-----------------------------------------------------------------------------------------------------------}
 
 //-----------------------------------------------------------------------------------------------------
+	/**
+	 * shifts all elements to desired direction
+	 * @param board the current state of the board
+	 * @param boardSize the dimension of the board, size 4 for 4x4
+	 * @param direction the direction the player wishes to move the pieces
+	 */
 public static int[] move(int [] board, int boardSize, String direction) {
 	String message = "";
 	
@@ -623,7 +629,7 @@ public static int[] move(int [] board, int boardSize, String direction) {
 	 * Takes all the zeores's left on the board
 	 * stores them in an array list
 	 * and then using a random object selects
-	 * one of those index to become a two or four, 10% chance to be 4, 90% chance to be 2
+	 * one of those index to become a two or four, (10% chance to be 4, 90% chance to be 2) => (HAVE NOT DONE THIS YET)
 	 * @param board
 	 */
 	public static int [] Randomize(int [] board) {
