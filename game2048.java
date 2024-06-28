@@ -642,9 +642,9 @@ public static int[] move(int [] board, int boardSize, String direction) {
 				zeroes.add(i);
 			}
 		}
-		int randomNumber = random.nextInt(2);
+		int randomNumber = random.nextInt(10);
 		int randomZeroesIndex = random.nextInt(zeroes.size());
-		if(randomNumber == 0) {
+		if(randomNumber < 9) {
 			randomInteger = 2;
 			board[zeroes.get(randomZeroesIndex)] = 2;
 		}

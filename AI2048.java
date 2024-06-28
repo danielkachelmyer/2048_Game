@@ -20,22 +20,49 @@ public class AI2048 {
 		game2048.Randomize(board);
         gameGraphics showBoard = new gameGraphics(board);
         String randomMove;
-        for(int i = 0; i < 120; i++){
+        for(int i = 0; i < 12; i++){
 
             Random random = new Random();
             String [] moves = {"LEFT", "RIGHT", "UP", "DOWN", };
             randomMove = moves[random.nextInt(moves.length)];
             try{
-                System.out.println(i + " " + randomMove);
+                System.out.println("move " + i + " " + " it moved " + randomMove);
                 game2048.move(board, 4, randomMove);
                 game2048.Randomize(board);
                 game2048.printBoard(board);
-                Thread.sleep(500);
+                System.out.println("debug dfsfsf");
+                Trial thisTrial = new Trial(board, 4);
+                System.out.println("fitness Score is " + thisTrial.getFitnessScore());
+                System.out.println("best move is " + tryRandomMoves(board, randomMove, thisTrial.getFitnessScore()));
+                System.out.println("debug");
+                Thread.sleep(100);
         
             }
             catch(Exception e){
                 continue;
             }
         }
+    }
+
+    public static String tryRandomMoves(int [] board, String prevChoice, int prevFitnessScore){
+        String [] moves = {"LEFT", "RIGHT", "UP", "DOWN", };
+        int maxScore = 0;
+        String bestMove = "";
+        for(int i = 0; i < 4; i++){
+            try{
+                game2048.move(board, 4, moves[i]);
+            
+        Trial thisTrial = new Trial(board, 4);
+
+        if(thisTrial.getFitnessScore() > maxScore){
+            maxScore = thisTrial.getFitnessScore();
+            bestMove = moves[i];
+        }
+            }
+            catch(Exception e){
+                continue;
+            }
+        }
+        return bestMove;
     }
 }
