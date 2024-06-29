@@ -12,11 +12,18 @@ public class gameTesting {
             d1 = 2, d2 = 2, d3 = 2, d4 = 2;
         int [] board  = {a1, a2, a3, a4, b1, b2, b3, b4, c1, c2, c3, c4, d1, d2, d3, d4};
         int mySize = 4;
-        String myDirection = "DOWN";
-        printBoard(board);
-        System.out.println("moving " + myDirection);
-        move(board, mySize, myDirection);
-        printBoard(board);
+
+		gameObject myGame = new gameObject();
+		myGame.printBoard();
+		System.out.println("game play: " + myGame.getCanStillPlay());
+		myGame.turn("LEFT");
+		myGame.printBoard();
+		System.out.println(myGame.getLeftInvalid());
+		myGame.turn("RIGHT");//oihgbhjkl
+		myGame.turn("UP");
+		myGame.turn("DOWN");
+		System.out.println("game play: " + myGame.getCanStillPlay());
+		
     //-------------
     //--------------
     }
