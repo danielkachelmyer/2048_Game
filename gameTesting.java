@@ -15,15 +15,9 @@ public class gameTesting {
 
 		gameObject myGame = new gameObject();
 		myGame.printBoard();
-		System.out.println("game play: " + myGame.getCanStillPlay());
-		myGame.turn("LEFT");
-		myGame.printBoard();
-		System.out.println(myGame.getLeftInvalid());
-		myGame.turn("RIGHT");//oihgbhjkl
-		myGame.turn("UP");
-		myGame.turn("DOWN");
-		System.out.println("game play: " + myGame.getCanStillPlay());
-		
+		Trial myTrial = new Trial(myGame);
+		System.out.println(myTrial.tryRandomMoves());
+
     //-------------
     //--------------
     }

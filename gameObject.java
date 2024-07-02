@@ -3,13 +3,13 @@ import java.util.Arrays;
 import java.util.Random;
 
 public class gameObject{
-    private int [] board;
-    private boolean canStillplay;
-    private boolean leftInvalid;
-    private boolean rightInvalid;
-    private boolean upInvalid;
-    private boolean downInvalid;
-    private int score;
+    public int [] board;
+    public boolean canStillplay;
+    public boolean leftInvalid;
+    public boolean rightInvalid;
+    public boolean upInvalid;
+    public boolean downInvalid;
+    public int score;
     
     gameObject(){
         this.board = getBoard();
@@ -24,19 +24,36 @@ public class gameObject{
 
     /*
      * 
+	 * 
+        int a1 = 2, a2 = 4, a3 = 8, a4 = 2, 
+            b1 = 4, b2 = 2, b3 = 4, b4 = 2, 
+            c1 = 2, c2 = 4, c3 = 2, c4 = 4, 
+            d1 = 4, d2 = 2, d3 = 4, d4 = 2;
+	 * 
         int a1 = 0, a2 = 0, a3 = 0, a4 = 0, 
             b1 = 0, b2 = 0, b3 = 0, b4 = 0, 
             c1 = 0, c2 = 0, c3 = 0, c4 = 0, 
             d1 = 0, d2 = 0, d3 = 0, d4 = 0;
+        int [] board  = {a1, a2, a3, a4, b1, b2, b3, b4, c1, c2, c3, c4, d1, d2, d3, d4};
      */
     public int[] getBoard(){
-        int a1 = 2, a2 = 4, a3 = 2, a4 = 4, 
-            b1 = 4, b2 = 2, b3 = 4, b4 = 2, 
-            c1 = 2, c2 = 4, c3 = 2, c4 = 4, 
-            d1 = 4, d2 = 2, d3 = 4, d4 = 2;
+        int a1 = 0, a2 = 0, a3 = 0, a4 = 0, 
+            b1 = 0, b2 = 0, b3 = 0, b4 = 0, 
+            c1 = 0, c2 = 0, c3 = 0, c4 = 0, 
+            d1 = 0, d2 = 0, d3 = 2, d4 = 2;
         int [] board  = {a1, a2, a3, a4, b1, b2, b3, b4, c1, c2, c3, c4, d1, d2, d3, d4};
 		return board;
     }
+
+	public int [] getCurrentBoard(){
+		return board;
+	}
+
+	public void setBoard(int [] newBoard){
+		for(int i = 0; i < board.length; i++){
+			board[i] = newBoard[i];
+		}
+	}
 
    /**
 	 * adds up every value in the board
