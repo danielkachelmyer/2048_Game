@@ -13,11 +13,15 @@ import java.util.Random;
 public class Trial {
     
     public gameObject myGameObject;//keep track of initial board
+    public gameObject trialGame;
     public int [] originalBoard = {0,1,2,3,4,5,6,7,8,9,1,1,1,1,1,1};
 
     Trial(gameObject myGameObject){
         this.myGameObject = myGameObject;
+        this.trialGame = new gameObject();
         this.originalBoard = getOriginalBoard(myGameObject.getCurrentBoard());
+
+        setTrialGame();
     }
 
     public int[] getOriginalBoard(int [] board){
@@ -26,6 +30,10 @@ public class Trial {
 			originalBoard[i] = board[i] ;
 		}
         return originalBoard;
+    }
+
+    public void setTrialGame(){
+        trialGame.setBoard(originalBoard);
     }
 
 /*
@@ -44,31 +52,32 @@ public class Trial {
         for(int i = 0; i < firstMoves.length; i++){//need to keep track of original board position
             //make first move
             getOriginalBoard(originalBoard);
-            myGameObject.setBoard(originalBoard);
-            myGameObject.turn(firstMoves[i]);
-            while(myGameObject.getCanStillPlay()){//execute random moves till loss
+            trialGame.setBoard(originalBoard);
+            trialGame.turn(firstMoves[i]);
+            while(trialGame.getCanStillPlay()){//execute random moves till loss
                  Random random = new Random();
                 String [] moves = {"LEFT", "RIGHT", "UP", "DOWN", };
                 randomMove = moves[random.nextInt(moves.length)];
                 try{
-                    myGameObject.turn(randomMove);
+                    trialGame.turn(randomMove);
                 }
                 catch(Exception e){
 
                 }
-                if(myGameObject.getScore(myGameObject.board) > maxScore){//if the left turn has highest score, return left as move
-                    maxScore = myGameObject.getScore(myGameObject.board);//keep track of highest score
+                if(trialGame.getScore(trialGame.board) > maxScore){//if the left turn has highest score, return left as move
+                    maxScore = trialGame.getScore(trialGame.board);//keep track of highest score
                     bestMove = firstMoves[i];
                 }
             
                 if(i == 6){                         //when the first move makes no diff, it keeps the getCanStillPlay variable as false
                     System.out.println(randomMove);//while loop doesn't execute
-                    myGameObject.printBoard();
+                    trialGame.printBoard();
                 }
             }
           //  System.out.println("move is " + firstMoves[i] + " this moves score is " + myGameObject.getScore(myGameObject.board));
             
         }
+       // System.out.println("max score was: " + maxScore);
         return bestMove;
     }
 }
