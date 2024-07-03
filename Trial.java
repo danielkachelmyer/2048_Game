@@ -6,6 +6,10 @@
  * keeps track of the highest score and which
  * ever inital direction has the highest score
  * tells the ai to make that direction
+ * 
+ * 
+ * try to upgrade trial so it can look at x moves infront
+ * instead of just one move ahead
  */
 
 import java.util.Random;
@@ -43,18 +47,20 @@ public class Trial {
  * return that move
  * 
  */
-    public  String tryRandomMoves(){
+    public  String executeTrial(int numMoves){
         String [] firstMoves = {"LEFT", "RIGHT", "UP", "DOWN", };
         int maxScore = 0;
         String bestMove = "";
         String randomMove = "";
+        int counter = 0;
 
         for(int i = 0; i < firstMoves.length; i++){//need to keep track of original board position
             //make first move
+            counter = 0;
             getOriginalBoard(originalBoard);
             trialGame.setBoard(originalBoard);
             trialGame.turn(firstMoves[i]);
-            while(trialGame.getCanStillPlay()){//execute random moves till loss
+            while(trialGame.getCanStillPlay() && counter < numMoves){//execute random moves till loss
                  Random random = new Random();
                 String [] moves = {"LEFT", "RIGHT", "UP", "DOWN", };
                 randomMove = moves[random.nextInt(moves.length)];
@@ -73,11 +79,48 @@ public class Trial {
                     System.out.println(randomMove);//while loop doesn't execute
                     trialGame.printBoard();
                 }
+                counter++;
             }
           //  System.out.println("move is " + firstMoves[i] + " this moves score is " + myGameObject.getScore(myGameObject.board));
             
         }
        // System.out.println("max score was: " + maxScore);
         return bestMove;
+    }
+
+    public int randomMoves(gameObject trialGame){
+        String randomMove = "";
+
+        while(trialGame.getCanStillPlay()){//execute random moves till loss
+            Random random = new Random();
+           String [] moves = {"LEFT", "RIGHT", "UP", "DOWN", };
+           randomMove = moves[random.nextInt(moves.length)];
+           try{
+               trialGame.turn(randomMove);
+           }
+           catch(Exception e){
+
+           }
+        }
+        return trialGame.getScore(trialGame.board);
+    }
+
+    public void execute(int movesAhead, gameObject trialGame){
+        String [] moves = {"LEFT", "RIGHT", "UP", "DOWN", };
+        int score = 0;
+        int leftScore;
+        int rightScore;
+        int downScore;
+        int upScore;
+        for(int i = 0; i < movesAhead; i++){
+            trialGame.turn(moves[0]);//execute recursion method here
+        }
+    }
+/*
+ * move left, right, up, down
+ * 
+ */
+    public void recursionMethod(gameObject trialGame){
+
     }
 }
