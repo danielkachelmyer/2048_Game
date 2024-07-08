@@ -88,39 +88,52 @@ public class Trial {
         return bestMove;
     }
 
-    public int randomMoves(gameObject trialGame){
-        String randomMove = "";
-
-        while(trialGame.getCanStillPlay()){//execute random moves till loss
-            Random random = new Random();
-           String [] moves = {"LEFT", "RIGHT", "UP", "DOWN", };
-           randomMove = moves[random.nextInt(moves.length)];
-           try{
-               trialGame.turn(randomMove);
-           }
-           catch(Exception e){
-
-           }
-        }
-        return trialGame.getScore(trialGame.board);
-    }
-
-    public void execute(int movesAhead, gameObject trialGame){
-        String [] moves = {"LEFT", "RIGHT", "UP", "DOWN", };
-        int score = 0;
-        int leftScore;
-        int rightScore;
-        int downScore;
-        int upScore;
-        for(int i = 0; i < movesAhead; i++){
-            trialGame.turn(moves[0]);//execute recursion method here
-        }
-    }
 /*
- * move left, right, up, down
- * 
+ * make an advanced trial that calculates the score
+ * based if the highest value piece is in the top left corner
+ * additionally only takes the highest piece value as the score
+ * score = biggest value +  20 if topLeft
  */
-    public void recursionMethod(gameObject trialGame){
+    public String advancedTrial(int numMoves){
+        String [] firstMoves = {"LEFT", "RIGHT", "UP", "DOWN", };
+        int maxScore = 0;
+        String bestMove = "";
+        String randomMove = "";
+        int counter = 0;
+        int fitnessScore = 0;
 
+        for(int i = 0; i < firstMoves.length; i++){//need to keep track of original board position
+            //make first move
+            counter = 0;
+            fitnessScore = 0;
+            getOriginalBoard(originalBoard);
+            trialGame.setBoard(originalBoard);
+            trialGame.turn(firstMoves[i]);
+            while(trialGame.getCanStillPlay() && counter < numMoves){//execute random moves till loss
+                 Random random = new Random();
+                String [] moves = {"LEFT", "RIGHT", "UP", "DOWN", };
+                randomMove = moves[random.nextInt(moves.length)];
+                try{
+                    trialGame.turn(randomMove);
+                }
+                catch(Exception e){
+
+                }
+                fitnessScore = trialGame.getBiggestValue(trialGame.getCurrentBoard());
+                if(trialGame.getTopLeft(trialGame.getCurrentBoard())){
+                    fitnessScore += 20;
+                }
+                if(fitnessScore > maxScore){//if the left turn has highest score, return left as move
+                    maxScore = fitnessScore;//keep track of highest score
+                    bestMove = firstMoves[i];
+                }
+                counter++;
+
+            }   
+         //   System.out.println("move is " + firstMoves[i]);
+         //   trialGame.printBoard();
+        }
+    //    System.out.println("best move" + bestMove);
+        return bestMove;    
     }
 }

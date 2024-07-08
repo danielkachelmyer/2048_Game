@@ -9,6 +9,8 @@ public class gameObject{
     public boolean rightInvalid;
     public boolean upInvalid;
     public boolean downInvalid;
+	public boolean topLeft;
+	public int biggestValue;
     public int score;
     
     gameObject(){
@@ -19,6 +21,8 @@ public class gameObject{
         this.downInvalid = false;
         this.score = getScore(board);
         this.canStillplay = getCanStillPlay();
+		this.topLeft = getTopLeft(this.getCurrentBoard());
+		this.biggestValue = getBiggestValue(this.getCurrentBoard());
 
     }
 
@@ -47,6 +51,24 @@ public class gameObject{
 
 	public int [] getCurrentBoard(){
 		return board;
+	}
+
+	public boolean getTopLeft(int [] currentBoard){
+		int max = getBiggestValue(currentBoard);
+		if(currentBoard[0] == max){
+			return true;
+		}
+		return false;
+	}
+
+	public int getBiggestValue(int [] currentBoard){
+		int max = 0;
+		for(int i = 0; i < board.length; i++){
+			if(currentBoard[i] >= max){
+				max = currentBoard[i];
+			}
+		}
+		return max;
 	}
 
 	public void setBoard(int [] newBoard){

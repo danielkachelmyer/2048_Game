@@ -14,10 +14,12 @@ public class gameTesting {
         int mySize = 4;
 
 		gameObject myGame = new gameObject();
-		myGame.printBoard();
-		Trial myTrial = new Trial(myGame);
-		System.out.println(myTrial.tryRandomMoves());
 
+		learningObject lC = new learningObject(myGame.getBoard(), "LEFT");
+
+		System.out.println(lC.move);
+		
+		System.out.println(lC.getScore());
     //-------------
     //--------------
     }

@@ -35,8 +35,9 @@ public class AI2048 {
         while(AIGameObject.getCanStillPlay()){//while the AI can still play
             
             Trial newTrial = new Trial(AIGameObject);//create a trial object for each move
-            move = newTrial.executeTrial(20000);
+            move = newTrial.executeTrial(2000);
             AIGameObject.turn(move);
+            
             //if the trial board equals the current board, go through all the other moves
             if(move == "LEFT" && AIGameObject.getLeftInvalid() == true){   
                 for(int i = 0; i < 4; i++){
@@ -45,8 +46,10 @@ public class AI2048 {
             }
         }
         if(AIGameObject.getScore(AIGameObject.getCurrentBoard()) > 1024){
-            AIGameObject.printBoard();
+          //  AIGameObject.printBoard();
         }
+        //AIGameObject.printBoard();
+        //System.out.println(AIGameObject.getBiggestValue());
         return AIGameObject.getScore(AIGameObject.getCurrentBoard());
         
     }
