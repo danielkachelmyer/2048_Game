@@ -15,11 +15,12 @@ public class gameTesting {
 
 		gameObject myGame = new gameObject();
 
-		learningObject lC = new learningObject(myGame.getBoard(), "LEFT");
+		learningObject lC = new learningObject(myGame.getBoard());
+		myGame.printBoard();
+		printBoard(lC.getBoard());
 
-		System.out.println(lC.move);
-		
-		System.out.println(lC.getScore());
+		System.out.println(similarity(board, myGame.getCurrentBoard()));
+
     //-------------
     //--------------
     }
@@ -129,6 +130,16 @@ public class gameTesting {
                 System.out.print(board[j] + " ");
             }
         }
+    }
+
+	public static int similarity(int [] a, int [] b){
+        int similarity = 0;
+        for(int i = 0; i < a.length; i++){
+            if(a[i] == b[i]){
+                similarity++;
+            }
+        }
+        return similarity;
     }
 }
 
